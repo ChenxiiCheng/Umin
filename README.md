@@ -1,18 +1,30 @@
 ## Ur Admin System
 
+### Online Preview
+
+[Online Demo](https://chenxiicheng.github.io/Umin/)
+
+### TODO
+
+- A lot of things
+
 ### Stack
 
 - Front End
 
   - React
   - Chakra UI
+  - Reach Router?
   - GraphQL(Apollo)
-  - Reach Router
   - TypeScript
+  - Jest
+  - Msw(Mock Service Worker)
+  - React Testing Library
 
 - Back End
   - Nest.js
   - TypeORM
-  - MongoDB / PostgreSQL
+  - MongoDB / PostgreSQL + Redis
   - TypeScript
-  - Heroku / Digital Ocean
+  - Docker?
+  - Heroku / Digital Ocean / Alibaba Cloud
