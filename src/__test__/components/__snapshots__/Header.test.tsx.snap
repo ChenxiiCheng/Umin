@@ -212,7 +212,6 @@ exports[`Test <Header /> should render links, buttons, icons, avatar, image corr
       <button
         aria-label="Switch to dark mode"
         class="chakra-button css-1jr0f57"
-        data-testid="colorSwitcher"
         type="button"
       >
         <svg
