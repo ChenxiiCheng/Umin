@@ -6,15 +6,16 @@
 
 ### TODO
 
-- A lot of things
+- ......
 
 ### Stack
 
 - Front End
 
   - React
+  - Auth0?
   - Chakra UI
-  - Reach Router?
+  - Reach Router
   - GraphQL(Apollo)
   - TypeScript
   - Jest
@@ -24,7 +25,8 @@
 - Back End
   - Nest.js
   - TypeORM
-  - MongoDB / PostgreSQL + Redis
+  - MongoDB / PostgreSQL
   - TypeScript
   - Docker?
-  - Heroku / Digital Ocean / Alibaba Cloud
+  - GitHub Action
+  - Heroku / Alibaba Cloud
