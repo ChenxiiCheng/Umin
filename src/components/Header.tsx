@@ -4,6 +4,8 @@ import { ColorModeSwitcher } from "../ColorModeSwitcher"
 import { MdBookmarkBorder, MdControlPoint } from 'react-icons/md'
 import { BsClipboardData, BsBell } from 'react-icons/bs'
 
+import NewFeatureImg from '../assets/img/new.svg';
+
 const navigationLinks = [
   {id: 1, name: '探索', 'url': 'https://www.chenxii.xyz'},
   {id: 2, name: '题库', 'url': 'https://www.chenxii.xyz'},
@@ -12,7 +14,7 @@ const navigationLinks = [
   {id: 5, name: '企业', 'url': 'https://www.chenxii.xyz'},
 ]
 
-const newFeatureLinkImage = "https://assets.leetcode-cn.com/support/new.svg"
+// const newFeatureLinkImage = "https://assets.leetcode-cn.com/support/new.svg"
 
 export const Header = () => {
   const navigationBarBg = useColorModeValue("white", "#1A202C")
@@ -89,7 +91,7 @@ export const Header = () => {
           <ColorModeSwitcher/>
         </HStack> 
         <Image
-          src={newFeatureLinkImage}
+          src={NewFeatureImg}
           alt="new feature"
           position="absolute"
           right="510px"
