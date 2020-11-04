@@ -1,17 +1,44 @@
-import React, {useState} from 'react'
-import { VStack, Box, HStack, useColorMode, useColorModeValue } from '@chakra-ui/core';
+import React, {useState, useEffect, useContext, createContext, Dispatch, SetStateAction} from 'react'
+import { VStack, Box, HStack, useColorMode, Divider, ColorMode } from '@chakra-ui/core';
 import {BsBarChart, BsTerminalFill, BsAward, BsCreditCard, BsClipboardData, BsPerson, BsShieldLock, BsBell, BsBootstrapReboot} from 'react-icons/bs'
 
-const menuList = [
-  {id: 1, name: '做题分析', icon: 'BsBarChart'},
-  {id: 2, name: '进度管理', icon: 'BsTerminalFill'},
-  {id: 3, name: '积分', icon: 'BsAward'},
-  {id: 4, name: '优惠券', icon: 'BsCreditCard'},
-  {id: 5, name: '订单', icon: 'BsClipboardData'},
-  {id: 6, name: '个人资料', icon: 'BsPerson'},
-  {id: 7, name: '账号安全', icon: 'BsShieldLock'},
-  {id: 8, name: '通知与隐私', icon: 'BsBell'},
-  {id: 9, name: '体验计划', icon: 'BsBootstrapReboot'},
+interface IMenuItem {
+  key: string
+  name: string
+  icon: string
+}
+
+interface IMenuItemProps {
+  item: IMenuItem
+}
+
+interface IMenuListSection  {
+  section: IMenuItem[]
+}
+
+interface IMenuContext {
+  colorMode: ColorMode
+  clickedItem: string
+  setClickedItem: Dispatch<SetStateAction<string>>
+}
+
+// * Mock menu list data
+const menuList: IMenuItem[][] = [
+  [
+    {key: 'analysis', name: '做题分析', icon: 'BsBarChart'},
+    {key: 'progress', name: '进度管理', icon: 'BsTerminalFill'},
+  ],
+  [
+    {key: 'points', name: '积分', icon: 'BsAward'},
+    {key: 'coupon', name: '优惠券', icon: 'BsCreditCard'},
+    {key: 'order', name: '订单', icon: 'BsClipboardData'},
+  ],
+  [
+    {key: 'account', name: '个人资料', icon: 'BsPerson'},
+    {key: 'security', name: '账号安全', icon: 'BsShieldLock'},
+    {key: 'notification', name: '通知与隐私', icon: 'BsBell'},
+    {key: 'plan', name: '体验计划', icon: 'BsBootstrapReboot'},
+  ]
 ]
 
 const VectorIcon = (props: { iconName: string }): JSX.Element => {
@@ -29,39 +56,69 @@ const VectorIcon = (props: { iconName: string }): JSX.Element => {
   }
 }
 
-export const Menu = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const [clickedNum, setClickedNum] = useState<number | undefined>()
+const MenuListSection = (props: IMenuListSection) => {
+  const { section } = props;
 
   return (
-    <VStack>
-      {menuList.length && menuList.map(item => (
-        <Box
-          as="button"
-          key={item.id}
-          d="flex"
-          justifyContent="flex-start"
-          alignItems="center"
-          p={4}
-          fontSize={16}
-          fontWeight={450}
-          mt={6}
-          w="100%"
-          cursor="pointer"
-          borderRadius="5px"
-          _hover={{ color: "rgba(45, 181, 93, 1)", bgColor: colorMode === "light" ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)" }}
-          bgColor={clickedNum === item.id ? colorMode === "light" ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)" : ""}
-          color={clickedNum === item.id ? colorMode === "light" ? "rgba(45, 181, 93, 1)" : "rgba(45, 181, 93, 1)" : "rgba(140, 140, 140, 1)"}
-          outline="none"
-          onClick={() => setClickedNum(item.id)}>
-          <HStack spacing={3}>
-            <VectorIcon iconName={item.icon} />
-            <Box as="span">
-              {item.name}
-            </Box>
-          </HStack>
+    <>
+      {section && section.map((item, index) => (<MenuItem key={index} item={item} />))}
+      <Divider />
+    </>
+  )
+}
+
+const MenuItem = (props: IMenuItemProps) => {
+  const { item } = props;
+  const {colorMode, clickedItem, setClickedItem} = useContext(MenuListContext)
+
+  return (
+    <Box
+      as="button"
+      d="flex"
+      justifyContent="flex-start"
+      alignItems="center"
+      p={4}
+      fontSize={16}
+      fontWeight={450}
+      mt={6}
+      w="100%"
+      cursor="pointer"
+      borderRadius="5px"
+      _hover={{ color: "rgba(45, 181, 93, 1)", bgColor: colorMode === "light" ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)" }}
+      bgColor={clickedItem === item.key ? colorMode === "light" ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)" : ""}
+      color={clickedItem === item.key ? colorMode === "light" ? "rgba(45, 181, 93, 1)" : "rgba(45, 181, 93, 1)" : "rgba(140, 140, 140, 1)"}
+      outline="none"
+      onClick={() => setClickedItem(item.key)}>
+      <HStack spacing={3}>
+        <VectorIcon iconName={item.icon} />
+        <Box as="span">
+          {item.name}
         </Box>
-      ))}
-    </VStack>
+      </HStack>
+    </Box>
+  )
+}
+
+const MenuListContext = createContext({} as IMenuContext)
+export const Menu = () => {
+  const { colorMode, toggleColorMode } = useColorMode()
+  const [clickedItem, setClickedItem] = useState<string>('')
+  const [menuTreeNodes, setMenuTreeNodes] = useState<JSX.Element[] | null>(null)
+
+  useEffect(() => {
+    const menuTree = menuList.length !== 0 ? renderMenuList(menuList) : null
+    setMenuTreeNodes(menuTree)
+  }, [])
+
+  const renderMenuList = (menuListData: IMenuItem[][]): JSX.Element[] => {
+    return menuListData.map((section, sectionKey) => (<MenuListSection key={sectionKey} section={section} />))
+  }
+
+  return (
+    <MenuListContext.Provider value={{colorMode, clickedItem, setClickedItem}}>
+      <VStack>
+        {menuTreeNodes}
+      </VStack>
+    </MenuListContext.Provider>
   )
 }
