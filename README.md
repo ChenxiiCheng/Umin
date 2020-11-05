@@ -26,7 +26,8 @@
   - Nest.js
   - TypeORM
   - MongoDB / PostgreSQL
-  - TypeScript
-  - Docker?
-  - GitHub Action
   - Heroku / Alibaba Cloud
+  - TypeScript
+  - Cypress
+  - Docker?
+  - GitHub Action?
