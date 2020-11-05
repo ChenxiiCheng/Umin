@@ -7,8 +7,9 @@ interface IProps {
 }
 
 export const AccountCard: React.FC<IProps> = ({ type }) => {
-  const cardBgColor = useColorModeValue('white', 'rgba(255, 255, 255, 0.01)')
+  const cardBgColor = useColorModeValue('white', 'rgba(26, 33, 46, 0.8)')
   const textColor = useColorModeValue('#1A202C', 'white')
+  const boxShadowMode = useColorModeValue('md', '2px 4px 6px -1px rgba(250,255,255,0.1), 0px 2px 4px -1px rgba(255,255,255,0.1)')
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [nicknameError, setNicknameError] = useState(false)
@@ -20,7 +21,7 @@ export const AccountCard: React.FC<IProps> = ({ type }) => {
       flexDir="column"
       justifyContent="space-between"
       alignItems="center"
-      shadow="md"
+      shadow={boxShadowMode}
       borderWidth="1px"
       borderRadius="md"
       p={10}
