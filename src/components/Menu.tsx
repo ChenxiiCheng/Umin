@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useContext, createContext, Dispatch, SetStateAction} from 'react'
+import React, { useState, useEffect, useContext, createContext, Dispatch, SetStateAction } from 'react'
+import { useNavigate } from "@reach/router"
 import { VStack, Box, HStack, useColorMode, Divider, ColorMode } from '@chakra-ui/core';
 import {BsBarChart, BsTerminalFill, BsAward, BsCreditCard, BsClipboardData, BsPerson, BsShieldLock, BsBell, BsBootstrapReboot} from 'react-icons/bs'
 
@@ -25,7 +26,7 @@ interface IMenuContext {
 // * Mock menu list data
 const menuList: IMenuItem[][] = [
   [
-    {key: 'analysis', name: '做题分析', icon: 'BsBarChart'},
+    {key: 'user_accounts', name: '用户列表', icon: 'BsBarChart'},
     {key: 'progress', name: '进度管理', icon: 'BsTerminalFill'},
   ],
   [
@@ -69,7 +70,19 @@ const MenuListSection = (props: IMenuListSection) => {
 
 const MenuItem = (props: IMenuItemProps) => {
   const { item } = props;
-  const {colorMode, clickedItem, setClickedItem} = useContext(MenuListContext)
+  const navigate = useNavigate()
+  const { colorMode, clickedItem, setClickedItem } = useContext(MenuListContext)
+  
+  // * 用户登入进系统，默认显示第一个页面
+  // * 所以菜单栏也需要在第一次渲染的时候高亮第一个菜单
+  useEffect(() => {
+    setClickedItem(menuList && menuList[0] && menuList[0][0].key)
+  }, [])
+
+  const handleMenuItemClick = () => {
+    setClickedItem(item.key)
+    navigate(item.key)
+  }
 
   return (
     <Box
@@ -88,7 +101,7 @@ const MenuItem = (props: IMenuItemProps) => {
       bgColor={clickedItem === item.key ? colorMode === "light" ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)" : ""}
       color={clickedItem === item.key ? colorMode === "light" ? "rgba(45, 181, 93, 1)" : "rgba(45, 181, 93, 1)" : "rgba(140, 140, 140, 1)"}
       outline="none"
-      onClick={() => setClickedItem(item.key)}>
+      onClick={handleMenuItemClick}>
       <HStack spacing={3}>
         <VectorIcon iconName={item.icon} />
         <Box as="span">
