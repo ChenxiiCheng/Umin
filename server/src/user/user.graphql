@@ -2,7 +2,17 @@ type User {
   id: Int!
   email: String!
   nickname: String
-  password: String!
+  password: String
+  isAdmin: Boolean!
+  isSuperUser: Boolean!
+  isActive: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type UserWithToken {
+  user: User!
+  token: String!
 }
 
 input UserInput {
@@ -11,11 +21,20 @@ input UserInput {
   password: String!
 }
 
+input UserLogin {
+  email: String!
+  password: String!
+}
+
 type Query {
-  users: [User!]
+  getAllUsers: [User!]
+  getUserByEmail(email: String!): User
 }
 
 type Mutation {
-  createUser(input: UserInput!): User
-  getUserByEmail(email: String!): User
+  createUser(user: UserInput!): User
+  createAdminUser(user: UserInput!): User
+  createSuperUser(user: UserInput!): User
+  updateUserInfo(data: UserInput!): User
+  login(user: UserLogin!): UserWithToken
 }

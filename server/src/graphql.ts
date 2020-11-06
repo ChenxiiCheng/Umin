@@ -12,18 +12,37 @@ export interface UserInput {
     password: string;
 }
 
+export interface UserLogin {
+    email: string;
+    password: string;
+}
+
 export interface User {
     id: number;
     email: string;
     nickname?: string;
-    password: string;
+    password?: string;
+    isAdmin: boolean;
+    isSuperUser: boolean;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface UserWithToken {
+    user: User;
+    token: string;
 }
 
 export interface IQuery {
-    users(): User[] | Promise<User[]>;
+    getAllUsers(): User[] | Promise<User[]>;
+    getUserByEmail(email: string): User | Promise<User>;
 }
 
 export interface IMutation {
-    createUser(input: UserInput): User | Promise<User>;
-    getUserByEmail(email: string): User | Promise<User>;
+    createUser(user: UserInput): User | Promise<User>;
+    createAdminUser(user: UserInput): User | Promise<User>;
+    createSuperUser(user: UserInput): User | Promise<User>;
+    updateUserInfo(data: UserInput): User | Promise<User>;
+    login(user: UserLogin): UserWithToken | Promise<UserWithToken>;
 }

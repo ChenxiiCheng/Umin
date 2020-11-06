@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -14,6 +14,18 @@ export class UserEntity extends BaseEntity {
   @Column()
   password: string
 
+  @Column({default: false})
+  isAdmin: boolean
+
+  @Column({default: false})
+  isSuperUser: boolean
+
   @Column({default: true})
-  isAcitve: boolean
+  isActive: boolean
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }
