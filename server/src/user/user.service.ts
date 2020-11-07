@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, Injectable } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
-import { genSalt, hash } from 'bcryptjs';
+import { compare, genSalt, hash } from 'bcryptjs';
 
 import { UserEntity } from './user.entity';
 import { CreateUserDto, UpdateUserInfoDto, UserLoginDto } from './user.dto';
@@ -64,15 +64,29 @@ export class UserService {
 
   // * login
   async login(user: UserLoginDto) {
-    const isUserExist = await this.getUserByEmail(user.email) || null
+    const queryUser = await this.getUserByEmail(user.email) || null
 
-    if (!isUserExist) {
-      return new BadRequestException('Please register an account first...')
+    if (!queryUser) {
+      throw new BadRequestException('Please type a valid email address...')
     }
 
-    const token = await this.createToken(isUserExist)
+    // compare password
+    try {
+      let token = '';
+      const isPasswordCorrect = await compare(user.password, queryUser.password)  
 
-    return {isUserExist, token}
+      console.log('password检查', isPasswordCorrect)
+
+      if (isPasswordCorrect) {
+        token = await this.createToken(queryUser)
+      } else {
+        throw new BadRequestException('Wrong password, please provide correct password')
+      }
+
+      return { user: queryUser, token }
+    } catch (error) {
+      throw new BadRequestException('Wrong password, please provide correct password')
+    }
   }
 
   // * update user information

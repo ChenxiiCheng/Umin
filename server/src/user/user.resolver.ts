@@ -1,12 +1,15 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { CreateUserDto, UserLoginDto, UpdateUserInfoDto } from './user.dto';
+import { UseGuards } from '@nestjs/common';
+import { authTokenGuard } from './authToken.guard';
 
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query()
+  @UseGuards(authTokenGuard)
   async getAllUsers() {
     return this.userService.getAllUsers()
   }

@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
       },
+      context: ({req}) => ({headers: req.headers})
     }),
     TypeOrmModule.forRoot(),
     UserModule
