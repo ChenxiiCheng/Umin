@@ -2,18 +2,18 @@
 
 ### Online Preview
 
-[Online Demo](https://chenxiicheng.github.io/Umin/)
+[Client-Side Demo](https://chenxiicheng.github.io/Umin/)
 
 ### TODO
 
-- ......
+- [Project Management](https://github.com/ChenxiiCheng/Umin/projects/1)
+- [API Documentation](https://github.com/ChenxiiCheng/Umin/wiki/API-Documentation)
 
 ### Stack
 
 - Front End
 
   - React
-  - Auth0?
   - Chakra UI
   - Reach Router
   - GraphQL(Apollo)
@@ -25,7 +25,7 @@
 - Back End
   - Nest.js
   - TypeORM
-  - MongoDB / PostgreSQL
+  - PostgreSQL
   - Heroku / Alibaba Cloud
   - TypeScript
   - Cypress
