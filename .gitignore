@@ -56,6 +56,9 @@ lerna-debug.log*
 /server/yarn-error.log*
 /server/lerna-debug.log*
 
+# .env
+/server/.env
+
 # Tests
 /server/coverage
 /server/.nyc_output

@@ -124,6 +124,8 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
             position: "top",
             isClosable: true
           })
+        }).catch(() => {
+          navigate("/register")
         })
       }
     }
