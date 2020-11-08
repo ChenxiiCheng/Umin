@@ -28,7 +28,7 @@ export class UserService {
     const isUserExist = await this.getUserByEmail(user.email) || null
 
     if (isUserExist) {
-      return new ConflictException('user already exist!')
+      throw new ConflictException('user already exist!')
     }
 
     const hashedUser = await this.hashPassword(user)
@@ -41,7 +41,7 @@ export class UserService {
     const isUserExist = await this.getUserByEmail(user.email) || null
 
     if (isUserExist) {
-      return new ConflictException('user already exist!')
+      throw new ConflictException('user already exist!')
     }
 
     const hashedUser = await this.hashPassword(user)
@@ -54,7 +54,7 @@ export class UserService {
     const isUserExist = await this.getUserByEmail(user.email) || null
 
     if (isUserExist) {
-      return new ConflictException('user already exist!')
+      throw new ConflictException('user already exist!')
     }
 
     const hashedUser = await this.hashPassword(user)
@@ -94,7 +94,7 @@ export class UserService {
     const queryUser = await this.getUserByEmail(user.email)
 
     if (!queryUser) {
-      return new BadRequestException('User does not exist, please renter a valid email address!')
+      throw new BadRequestException('User does not exist, please renter a valid email address!')
     }
 
     queryUser.nickname = user.nickname
