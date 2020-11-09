@@ -2,7 +2,7 @@
 
 ### Online Preview
 
-[Client-Side Demo](https://chenxiicheng.github.io/Umin/)
+[Online Demo](https://umin.vercel.app/login)
 
 ### TODO
 
