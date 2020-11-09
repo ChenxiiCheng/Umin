@@ -1,10 +1,12 @@
-import React from 'react'
-import { Text, Link, Button, HStack, Box, Avatar, AvatarBadge, Image, useColorModeValue } from '@chakra-ui/core'
-import { ColorModeSwitcher } from "../ColorModeSwitcher"
+import React, {useState, useRef} from 'react'
+import { Text, Link, Button, HStack, Box, Avatar, AvatarBadge, Image, useColorModeValue, Menu, MenuButton, MenuList, MenuItem, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from '@chakra-ui/core'
 import { MdBookmarkBorder, MdControlPoint } from 'react-icons/md'
 import { BsClipboardData, BsBell } from 'react-icons/bs'
+import { useNavigate } from '@reach/router';
 
+import { ColorModeSwitcher } from "../ColorModeSwitcher"
 import NewFeatureImg from '../assets/img/new.svg';
+import { userLogout } from '../lib/user'
 
 const navigationLinks = [
   {id: 1, name: '探索', 'url': 'https://www.chenxii.xyz'},
@@ -20,6 +22,16 @@ export const Header = () => {
   const navigationBarBg = useColorModeValue("white", "#1A202C")
   const navigationBarColor = useColorModeValue("rgba(38, 38, 38, 1)", "white")
   const navigationBarBorderBottom = useColorModeValue("rgba(240, 240, 240, 1)", "#2D3748")
+
+  const navigate = useNavigate()
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
+  const cancelRef = useRef(null)
+
+  const handleUserLogout = () => {
+    userLogout()
+    setAlertOpen(false)
+    navigate("login")
+  }
 
   return (
     <Box
@@ -85,9 +97,19 @@ export const Header = () => {
               data-testid="icon__bell"
             />
           </Box>
-          <Avatar size="xs" cursor="pointer" data-testid="avatar">
+          {/* <Avatar size="xs" cursor="pointer" data-testid="avatar">
             <AvatarBadge boxSize="1em" bg="green.500" />
-          </Avatar>
+          </Avatar> */}
+          <Menu>
+            <MenuButton as={Button} p="0" h="24px" w="40px" bg="" _hover={{bg: ""}} _active={{bg: ""}} _focus={{boxShadow: "none"}}>
+              <Avatar size="xs" cursor="pointer" data-testid="avatar">
+              <AvatarBadge boxSize="1em" bg="green.500" />
+            </Avatar>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => setAlertOpen(true)}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
           <ColorModeSwitcher/>
         </HStack> 
         <Image
@@ -100,6 +122,33 @@ export const Header = () => {
           transition="all 0.3s"
           _hover={{ top: "-3px" }}
         />
+        <AlertDialog
+          isOpen={alertOpen}
+          motionPreset="slideInBottom"
+          leastDestructiveRef={cancelRef}
+          onClose={() => setAlertOpen(false)}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Logout
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure to logout?
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} size="sm" onClick={() => setAlertOpen(false)}>
+                  Cancel
+                </Button>
+                <Button colorScheme="red" size="sm" onClick={handleUserLogout} ml={4}>
+                  Logout
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </Box>
     </Box>
   )

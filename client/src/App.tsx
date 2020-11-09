@@ -11,7 +11,7 @@ import { AccountList } from './pages/AccountList'
 import { getUserInfo } from './lib/user';
 
 const client = new ApolloClient({
-  uri: `${process.env.ENDPOINT_URI}/graphql`,
+  uri: "https://umin-server.herokuapp.com/graphql",
   cache: new InMemoryCache()
 })
 

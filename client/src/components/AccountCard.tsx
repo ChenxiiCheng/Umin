@@ -37,6 +37,13 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
   useEffect(() => {
     if (typeof loginMutaionError !== "undefined" || typeof registerMutaionError !== "undefined") {
       const errorMsg = (loginMutaionError ? loginMutaionError?.graphQLErrors[0].message : "") || (registerMutaionError ? registerMutaionError?.graphQLErrors[0].message : "")
+      
+      if (errorMsg.includes("password")) {
+        setPasswordError(true)
+      } else if (errorMsg.includes("email")) {
+        setEmailError(true)
+      }
+
       toast({
         title: "Failed",
         status: "error",
@@ -176,7 +183,10 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
               errorBorderColor={emailError === true ? "red.300" : ""}
               placeholder="Email"
               value={email}
-              onChange={(event) => setEmail(event.currentTarget.value)}
+              onChange={(event) => {
+                setEmailError(false)
+                setEmail(event.currentTarget.value)
+              }}
             />
           </FormControl>
         </InputGroup>
@@ -196,7 +206,10 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
                 errorBorderColor={nicknameError === true ? "red.300" : ""}
                 placeholder="Nickname"
                 value={nickname}
-                onChange={(event) => setNickname(event.currentTarget.value)}
+                onChange={(event) => {
+                  setNicknameError(false)
+                  setNickname(event.currentTarget.value)
+                }}
               />
             </FormControl>
           </InputGroup>
@@ -215,7 +228,10 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
               errorBorderColor={passwordError === true ? "red.300" : ""}
               placeholder="Password"
               value={password}
-              onChange={(event) => setPassword(event.currentTarget.value)}
+              onChange={(event) => {
+                setPasswordError(false)
+                setPassword(event.currentTarget.value)
+              }}
             />
           </FormControl>
           <InputRightElement>
