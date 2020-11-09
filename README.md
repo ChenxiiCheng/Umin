@@ -4,6 +4,11 @@
 
 [Online Demo](https://umin-g63mjx87t.vercel.app)
 
+_Test account:_
+
+- Email: test@test.com
+- Password: 123456
+
 ### TODO
 
 - [Project Management](https://github.com/ChenxiiCheng/Umin/projects/1)
