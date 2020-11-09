@@ -75,8 +75,6 @@ export class UserService {
       let token = '';
       const isPasswordCorrect = await compare(user.password, queryUser.password)  
 
-      console.log('password检查', isPasswordCorrect)
-
       if (isPasswordCorrect) {
         token = await this.createToken(queryUser)
       } else {

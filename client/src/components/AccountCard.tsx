@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate, RouteComponentProps, WindowLocation } from '@reach/router';
+import { Link, useNavigate, RouteComponentProps } from '@reach/router';
 import { useMutation } from '@apollo/client';
 import { Box, Text, Heading, InputGroup, InputLeftAddon, Input, Button, FormControl, useColorModeValue, InputRightElement, useToast } from '@chakra-ui/core';
 import {FaRegEnvelope, FaRegEye, FaRegEyeSlash, FaRegStar} from 'react-icons/fa'
 
 import { LOGIN, REGISTER } from '../graphql/user';
+import { setUserInfo } from '../lib/user';
 
 interface IProps extends RouteComponentProps {
-  type: 'register' | 'login',
+  type: 'register' | 'login';
 }
 
 interface LoginPayload {
-  email: string
-  nickname?: string
-  password: string
+  email: string;
+  nickname?: string;
+  password: string;
 }
 
 export const AccountCard: React.FC<IProps> = ({ type, location }) => {
@@ -100,12 +101,13 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
     // * call login or register backend endpoint
     if (!emailError && !passwordError && !nicknameError) {
       if (type === "login") {
-        login({ variables: { user: payload } }).then(() => {
+        login({ variables: { user: payload } }).then(res => {
+          setUserInfo(res.data.login)
           navigate("/")
           toast({
             title: "Login Success",
             status: "success",
-            duration: 2500,
+            duration: 2000,
             position: "top",
             isClosable: true
           })
@@ -120,7 +122,7 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
             title: "Register Success",
             status: "success",
             description: "Registered success, now please login in.",
-            duration: 2500,
+            duration: 2000,
             position: "top",
             isClosable: true
           })
