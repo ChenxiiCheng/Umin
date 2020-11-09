@@ -11,7 +11,7 @@ import { AccountList } from './pages/AccountList'
 import { getUserInfo } from './lib/user';
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: `${process.env.ENDPOINT_URI}/graphql`,
   cache: new InMemoryCache()
 })
 
