@@ -11,7 +11,7 @@ export class authTokenGuard implements CanActivate {
       return false
     }
 
-    ctx.user = await this.validateToken(ctx.headers.authorization)
+    ctx.userPayload = await this.validateToken(ctx.headers.authorization)
 
     return true
   }

@@ -2,14 +2,16 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { CreateUserDto, UserLoginDto, UpdateUserInfoDto } from './user.dto';
 import { UseGuards } from '@nestjs/common';
-import { authTokenGuard } from './authToken.guard';
+import { authTokenAndRoleGuard } from 'src/guards/authTokenAndRole.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Resolver('User')
+@UseGuards(authTokenAndRoleGuard)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query()
-  @UseGuards(authTokenGuard)
+  @Roles('adminUser')
   async getAllUsers() {
     return this.userService.getAllUsers()
   }
