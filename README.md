@@ -2,7 +2,7 @@
 
 ### Online Preview
 
-[Online Demo](https://umin-g63mjx87t.vercel.app)
+[Online Demo](https://umin.vercel.app)
 
 _Test account:_
 
