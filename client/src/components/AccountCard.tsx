@@ -161,7 +161,7 @@ export const AccountCard: React.FC<IProps> = ({ type, location }) => {
         fontSize="lg"
         fontWeight="450"
       >
-        <Heading as="h2" size="xl">
+        <Heading as="h2" size="xl" color={textColor} >
           {type === "login" ? "Sign In" : "Sign Up"}
         </Heading>
         <Text color={textColor} _hover={{color: "gray.500"}}>
