@@ -9,6 +9,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { AccountList } from './pages/AccountList'
 import { getUserInfo } from './lib/user';
+import './App.css';
 
 const client = new ApolloClient({
   uri: "http://127.0.0.1:3000/graphql",
