@@ -6,12 +6,12 @@ import { authTokenAndRoleGuard } from 'src/guards/authTokenAndRole.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 
 @Resolver('User')
-@UseGuards(authTokenAndRoleGuard)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query()
-  @Roles('adminUser')
+  @UseGuards(authTokenAndRoleGuard)
+  @Roles(['adminUser', 'superUser'])
   async getAllUsers() {
     return this.userService.getAllUsers()
   }
@@ -29,12 +29,16 @@ export class UserResolver {
 
   // * create admin user
   @Mutation()
+  @UseGuards(authTokenAndRoleGuard)
+  @Roles(['adminUser', 'superUser'])
   async createAdminUser(@Args('user') user: CreateUserDto) {
     return await this.userService.createAdminUser(user)
   }
 
   // * create super user
   @Mutation()
+  @UseGuards(authTokenAndRoleGuard)
+  @Roles(['superUser'])
   async createSuperUser(@Args('user') user: CreateUserDto) {
     return await this.userService.createSuperUser(user)
   }

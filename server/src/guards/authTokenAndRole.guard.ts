@@ -18,20 +18,21 @@ export class authTokenAndRoleGuard implements CanActivate {
     const ctx = GqlExecutionContext.create(context).getContext()
     const neededRoles = this.reflector.get<string[]>('roles', context.getHandler())
 
-    if (!ctx.headers.authorization) {
-      return false
-    }
+    if (!ctx.headers.authorization) return false
 
     // * {id: number, isAdmin: true/false, isSuperUser: true/false, isActive: true/false}
     const userPayload = await this.validateAndDecodeToken(ctx.headers.authorization)
+
+    console.log('userPayload', userPayload)
+    console.log('neededRoles', neededRoles)
 
     if (!userPayload) return false
     if (!neededRoles) return true
 
     // * neededRoles = ['activeUser', 'adminUser', 'superUser']
     for (const role of neededRoles) {
-      if (role === 'adminUser' && (userPayload as IUserPayload).isAdmin) return true
-      else if (role === 'superUser' && (userPayload as IUserPayload).isSuperUser) return true
+      if (role === 'superUser' && (userPayload as IUserPayload).isSuperUser) return true
+      else if (role === 'adminUser' && (userPayload as IUserPayload).isAdmin) return true
       else if (role === 'activeUser' && (userPayload as IUserPayload).isActive) return true
     }
 
